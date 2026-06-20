@@ -17,10 +17,10 @@ jobs:
       - name: Setup Bun
         uses: ./.github/actions/setup-bun
 
-      - name: Build Windows binary
+      - name: Build all binaries
         working-directory: packages/opencode
         run: |
-          bun run script/build.ts --baseline --skip-install
+          bun run script/build.ts --baseline
 
       - name: Upload Windows binary
         uses: actions/upload-artifact@v4
