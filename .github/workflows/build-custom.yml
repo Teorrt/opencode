@@ -2,11 +2,6 @@ name: build-custom
 
 on:
   workflow_dispatch:
-    inputs:
-      baseline:
-        description: 'Build baseline (compatible with older CPUs)'
-        type: boolean
-        default: true
 
 jobs:
   build:
@@ -25,15 +20,11 @@ jobs:
       - name: Build Windows binary
         working-directory: packages/opencode
         run: |
-          FLAGS="--single"
-          if [ "${{ github.event.inputs.baseline }}" = "true" ]; then
-            FLAGS="$FLAGS --baseline"
-          fi
-          bun run script/build.ts $FLAGS --skip-install
+          bun run script/build.ts --baseline --skip-install
 
-      - name: Upload binary
+      - name: Upload Windows binary
         uses: actions/upload-artifact@v4
         with:
           name: opencode-windows-custom
-          path: packages/opencode/dist/*/bin/opencode.exe
+          path: packages/opencode/dist/*windows*/bin/opencode.exe
           if-no-files-found: error
